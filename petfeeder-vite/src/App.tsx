@@ -10,14 +10,14 @@ export default function App() {
       <p>Welcome to the Pet Feeder application!</p>
       <p>Please select how often would you like to feed your pet</p>
       <select name="feedFrequency" id="feedFrequency" onChange={(e) => setFeedFrequency(e.target.value)} value={feedFrequency}>
-        <option value="1">Once a day</option>
-        <option value="2">Twice a day</option>
-        <option value="3">Every Other Day</option>
-        <option value="4">Every Three Days</option>
-        <option value="5">Once a week</option>
-        <option value="6">Twice a week</option>
-        <option value="7">Every Two Weeks</option>
-        <option value="8">Once a month</option>
+        <option value="Once a day">Once a day</option>
+        <option value="Twice a day">Twice a day</option>
+        <option value="Every Other Day">Every Other Day</option>
+        <option value="Every Three Days">Every Three Days</option>
+        <option value="Once a week">Once a week</option>
+        <option value="Twice a week">Twice a week</option>
+        <option value="Every Two Weeks">Every Two Weeks</option>
+        <option value="Once a month">Once a month</option>
       </select>
       {feedFrequency ?
         <>
