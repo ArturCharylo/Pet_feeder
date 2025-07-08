@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/react-calendar": "^3.9.0",
+    "install": "^0.13.0",
+    "npm": "^11.4.2",
     "react": "^19.1.0",
+    "react-calendar": "^6.0.0",
     "react-dom": "^19.1.0",
     "vite-plugin-pwa": "^1.0.1"
   },
