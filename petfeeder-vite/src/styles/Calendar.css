@@ -87,6 +87,7 @@
   .react-calendar {
     padding: 0.5rem;
     font-size: 0.95rem;
+    margin: 0.5rem 0.5rem 0.25rem 0.5rem;
   }
   .react-calendar__navigation button {
     font-size: 1rem;
