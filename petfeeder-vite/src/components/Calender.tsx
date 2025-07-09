@@ -1,7 +1,7 @@
 // FrequencyCalendar.tsx
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
-import '../index.css';
+import '../styles/Calendar.css';
 
 interface Props {
   feedFrequency: string;
