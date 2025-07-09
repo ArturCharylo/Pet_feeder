@@ -8,10 +8,10 @@ export const Menu: React.FC = () => {
 
     return (
         <div className="App">
-            <h1>Pet Feeder</h1>
-            <p>Welcome to the Pet Feeder application!</p>
-            <p>Please select how often would you like to feed your pet</p>
-            <select name="feedFrequency" id="feedFrequency"
+            <h1 className='Title'>Pet Feeder</h1>
+            <p className='Welcome-text'>Welcome to the Pet Feeder application!<br/>
+            Please select how often would you like to feed your pet</p>
+            <select className='feedFrequency' name="feedFrequency" id="feedFrequency"
                 onChange={(e) => setFeedFrequency(e.target.value)}
                 value={feedFrequency}>
                 <option value="">-- select frequency --</option>
@@ -26,8 +26,8 @@ export const Menu: React.FC = () => {
             </select>
             {feedFrequency ?
                 <>
-                    <h5>Great you selected {feedFrequency} as your option</h5>
-                    <h5>Feel free to change this setting as you wish</h5>
+                    <h5 className='Calendar-text'>Great you selected {feedFrequency} as your option<br/>
+                    Feel free to change this setting as you wish</h5>
                     <FrequencyCalendar feedFrequency={feedFrequency} />
                 </>
                 : <p>Please select feeding frequency</p>

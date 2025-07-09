@@ -1,0 +1,55 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 95vh;
+  width: 80vw;
+  background-color: #eec8fba0;
+  border: 1px solid #f875f8b3;
+  border-radius: 10px;
+}
+
+.Title {
+  font-size: 2.5rem;
+  color: #353333c9;
+  margin-bottom: 1rem;
+}
+
+.welcome-text {
+  font-size: 1.2rem;
+  color: #353333c9;
+  margin-bottom: 2rem;
+}
+
+.feedFrequency {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #f875f8b3;
+  background-color: #ffffff;
+  color: #651f7f;
+  appearance: none;
+  outline: none; /* Optional: removes default focus outline */
+}
+
+.Calendar-text {
+  font-size: 1.2rem;
+  color: #353333c9;
+  margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .App {
+    width: 80vw;
+    height: 90vh;
+    padding: 1rem;
+    margin-left: 1.5rem;
+  }
+  .Title {
+    font-size: 1.8rem;
+  }
+
+  .welcome-text {
+    font-size: 1rem;
+  }
+}
