@@ -65,6 +65,9 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
 
   return (
     <Calendar
+      calendarType="iso8601"
+      locale="pl-PL"
+      minDetail="month"
       tileClassName={({ date, view }) => {
         if (view === 'month') {
           const found = highlightedDates.find(d =>

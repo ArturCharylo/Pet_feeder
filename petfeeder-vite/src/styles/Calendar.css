@@ -1,5 +1,95 @@
+/* General calendar background and border */
+.react-calendar {
+  background: #fff6fd;
+  border: 1px solid #f875f8b3;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #eec8fb44;
+  padding: 1rem;
+  margin: 2rem 4rem 2rem 4rem;
+  font-family: inherit;
+}
+
+/* Month and navigation styling */
+.react-calendar__navigation {
+  background: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.react-calendar__navigation button {
+  color: #651f7f;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background 0.2s;
+  padding: 0.3rem 0.7rem;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background: #eec8fb80;
+}
+
+/* Weekday labels */
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  color: #a06ebc;
+  font-weight: 500;
+  font-size: 1rem;
+  text-transform: uppercase;
+  background: transparent;
+}
+
+/* Day tiles */
+.react-calendar__tile {
+  background: none;
+  border: none;
+  border-radius: 999px;
+  color: #651f7f;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+  padding: 0.5em 0.6em;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: #eec8fb80;
+  color: #651f7f;
+}
+
+/* Highlighted feeding days */
 .react-calendar__tile.highlight {
   background: #3f51b5;
-  color: white;
-  border-radius: 50%;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: bold;
+  box-shadow: 0 0 0 2px #f875f8b3;
+}
+
+/* Today */
+.react-calendar__tile--now {
+  background: #f875f8b3;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+/* Remove border from active tile */
+.react-calendar__tile--active {
+  background: #a06ebc;
+  color: #fff;
+  border-radius: 999px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .react-calendar {
+    padding: 0.5rem;
+    font-size: 0.95rem;
+  }
+  .react-calendar__navigation button {
+    font-size: 1rem;
+    padding: 0.2rem 0.5rem;
+  }
 }
