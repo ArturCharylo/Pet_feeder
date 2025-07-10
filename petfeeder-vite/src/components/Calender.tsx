@@ -64,11 +64,20 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     setHighlightedDates(dates);
   }, [feedFrequency]);
 
+
+  const getDate = (date: Date) => {
+    console.log(`Selected date: ${date.toISOString().split('T')[0]}`);
+    return date.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+  }
+
   return (
     <Calendar
       calendarType="iso8601"
       locale="pl-PL"
       minDetail="month"
+      onChange={(e) => {
+        getDate(e as Date);
+      }}
       tileClassName={({ date, view }) => {
         if (view === 'month') {
           const count = highlightedDates.filter(d =>
