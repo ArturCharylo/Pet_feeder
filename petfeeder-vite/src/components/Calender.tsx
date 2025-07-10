@@ -13,6 +13,15 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [popupPosition, setPopupPosition] = useState<{ top: number, left: number } | null>(null);
   const popupRef = useRef<HTMLDivElement | null>(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 600);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 600);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
 
   useEffect(() => {
@@ -108,11 +117,15 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
         minDetail="month"
         onClickDay={(date, event) => {
           getDate(date);
-          const rect = (event.target as HTMLElement).getBoundingClientRect();
-          setPopupPosition({
-            top: rect.bottom + window.scrollY,
-            left: rect.left + window.scrollX
-          });
+            if (isSmallScreen) {
+              setPopupPosition(null); // nie ustawiamy pozycji – pojawi się na środku
+            } else {
+              const rect = (event.target as HTMLElement).getBoundingClientRect();
+              setPopupPosition({
+                top: rect.bottom + window.scrollY,
+                left: rect.left + window.scrollX
+              });
+            }
         }}
         tileClassName={({ date, view }) => {
           if (view === 'month') {
@@ -125,20 +138,35 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
           return null;
         }}
       />
-      {selectedDate && popupPosition && (
+      {selectedDate && (
         <div
           className="popup-wrapper"
           ref={popupRef}
-          style={{
-            position: 'absolute',
-            top: popupPosition.top - 15,
-            left: popupPosition.left,
-            zIndex: 1000
-          }}
+          style={(() => {
+            if (isSmallScreen) {
+              return {
+                position: 'fixed',
+                top: '75%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 1000
+              };
+            } else if (popupPosition) {
+              return {
+                position: 'absolute',
+                top: popupPosition.top - 15,
+                left: popupPosition.left,
+                zIndex: 1000
+              };
+            } else {
+              return {};
+            }
+          })()}
         >
           <DayDetails date={selectedDate} onClose={closePopup} />
         </div>
       )}
+
 
     </>
   );

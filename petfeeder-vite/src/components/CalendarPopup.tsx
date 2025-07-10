@@ -10,8 +10,10 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose }) => (
     <div className="day-details-content">
       <div className="day-details-column">
         <p>Wybrana data: {date.toLocaleDateString()}</p>
-        <label htmlFor="was-fed">Was the pet fed this day?</label>
-        <input type="checkbox" className="was-fed-button" name="was-fed" id="was-fed"/>
+        <div className="checkbox-row">
+          <label htmlFor="was-fed">Was the pet fed this day?</label>
+          <input type="checkbox" className="was-fed-button" name="was-fed" id="was-fed"/>
+        </div>
       </div>
       <div className="day-details-column">
         <label htmlFor="food-type">Food type:</label>
@@ -20,7 +22,7 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose }) => (
         <input type="number" className="amount-input" name="amount" id="amount" placeholder="Enter amount in grams"/>
       </div>
     </div>
-    <button className="save-button">Save</button>
+    <button className="save-button" onClick={onClose}>Save</button>
   </div>
 );
 export default DayDetails;
