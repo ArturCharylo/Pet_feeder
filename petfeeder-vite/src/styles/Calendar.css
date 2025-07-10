@@ -59,12 +59,19 @@
 }
 
 /* Highlighted feeding days */
-.react-calendar__tile.highlight {
+.react-calendar__tile.highlight-once {
   background: #3f51b5;
   color: #fff;
   border-radius: 999px;
   font-weight: bold;
-  box-shadow: 0 0 0 2px #f875f8b3;
+}
+
+/*Highlight days in which there are more than one feedings on different color*/
+.react-calendar__tile.highlight-twice {
+  background: linear-gradient(135deg, #3f51b5 50%, #f875f8b3 50%);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: bold;
 }
 
 /* Today */

@@ -17,14 +17,14 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     const dates: Date[] = [];
     let currentDate = new Date(today);
 
-    // Mapowanie feedFrequency na liczbę dni odstępu
+    // map feedFrequency to interval in days
     let interval = 0;
     switch (feedFrequency) {
       case 'Once a day':
         interval = 1;
         break;
       case 'Twice a day':
-        interval = 0.5; // Specjalny przypadek – 2 razy dziennie
+        interval = 0.5; // specjal case - twice a day
         break;
       case 'Every Other Day':
         interval = 2;
@@ -36,7 +36,7 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
         interval = 7;
         break;
       case 'Twice a week':
-        interval = 3.5; // 2 razy w tygodniu → co ~3–4 dni
+        interval = 3.5; // 2 times a week is every 3.5 days
         break;
       case 'Every Two Weeks':
         interval = 14;
@@ -46,12 +46,13 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
         break;
     }
 
-    // Obsługa specjalnego przypadku "Twice a day"
+    // Handling the special case for "Twice a day"
     if (interval === 0.5) {
-      // Dodajemy dwie daty na każdy dzień (np. rano i wieczorem)
-      for (let i = 0; i < 30; i++) {
+      // Add dates for twice a day
+      for (let i = 0; i < 60; i++) {
+        console.log(`Adding date: ${currentDate.toISOString()}`);
         dates.push(new Date(currentDate));
-        currentDate = new Date(currentDate.getTime() + 12 * 60 * 60 * 1000); // co 12h
+        currentDate = new Date(currentDate.getTime() + 12 * 60 * 60 * 1000); // every 12 hours
       }
     } else if (interval > 0) {
       for (let i = 0; i < 30; i++) {
@@ -70,10 +71,13 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
       minDetail="month"
       tileClassName={({ date, view }) => {
         if (view === 'month') {
-          const found = highlightedDates.find(d =>
+          const count = highlightedDates.filter(d =>
             d.toDateString() === date.toDateString()
-          );
-          return found ? 'highlight' : null;
+          ).length;
+
+          if (count === 2) return 'highlight-twice';
+          if (count === 1) return 'highlight-once';
+          return null;
         }
       }}
     />
