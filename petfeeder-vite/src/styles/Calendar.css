@@ -9,6 +9,17 @@
   font-family: inherit;
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Month and navigation styling */
 .react-calendar__navigation {
   background: transparent;

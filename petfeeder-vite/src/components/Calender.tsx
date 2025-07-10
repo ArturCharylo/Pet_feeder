@@ -1,5 +1,5 @@
 // FrequencyCalendar.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Calendar from 'react-calendar';
 import DayDetails from './CalendarPopup';
 import '../styles/Calendar.css';
@@ -11,6 +11,9 @@ interface Props {
 const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   const [highlightedDates, setHighlightedDates] = useState<Date[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [popupPosition, setPopupPosition] = useState<{ top: number, left: number } | null>(null);
+  const popupRef = useRef<HTMLDivElement | null>(null);
+
 
   useEffect(() => {
     if (!feedFrequency) return;
@@ -47,6 +50,7 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
         interval = 30;
         break;
     }
+    
 
     // Handling the special case for "Twice a day"
     if (interval === 0.5) {
@@ -67,10 +71,34 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   }, [feedFrequency]);
 
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        closePopup();
+      }
+    }
+
+    if (selectedDate) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+  };}, [selectedDate]);
+
   const getDate = (date: Date) => {
     setSelectedDate(date)
     return date.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
   }
+
+  const closePopup = () => {
+    setSelectedDate(null);
+    setPopupPosition(null);
+  };
+
 
   return (
     <>
@@ -78,26 +106,40 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
         calendarType="iso8601"
         locale="pl-PL"
         minDetail="month"
-        onChange={(e) => {
-          getDate(e as Date);
+        onClickDay={(date, event) => {
+          getDate(date);
+          const rect = (event.target as HTMLElement).getBoundingClientRect();
+          setPopupPosition({
+            top: rect.bottom + window.scrollY,
+            left: rect.left + window.scrollX
+          });
         }}
         tileClassName={({ date, view }) => {
           if (view === 'month') {
             const count = highlightedDates.filter(d =>
               d.toDateString() === date.toDateString()
             ).length;
-
             if (count === 2) return 'highlight-twice';
             if (count === 1) return 'highlight-once';
-            return null;
           }
+          return null;
         }}
       />
-      {selectedDate && (
-        <DayDetails
-          date={selectedDate}
-        />
+      {selectedDate && popupPosition && (
+        <div
+          className="popup-wrapper"
+          ref={popupRef}
+          style={{
+            position: 'absolute',
+            top: popupPosition.top - 15,
+            left: popupPosition.left,
+            zIndex: 1000
+          }}
+        >
+          <DayDetails date={selectedDate} onClose={closePopup} />
+        </div>
       )}
+
     </>
   );
 };
