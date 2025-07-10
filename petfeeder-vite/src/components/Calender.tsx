@@ -1,6 +1,7 @@
 // FrequencyCalendar.tsx
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
+import DayDetails from './CalendarPopup';
 import '../styles/Calendar.css';
 
 interface Props {
@@ -92,7 +93,11 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
           }
         }}
       />
-      <p>{selectedDate ? selectedDate.toLocaleString() : ''}</p>
+      {selectedDate && (
+        <DayDetails
+          date={selectedDate}
+        />
+      )}
     </>
   );
 };

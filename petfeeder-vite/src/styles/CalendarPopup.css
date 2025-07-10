@@ -1,0 +1,73 @@
+.day-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffffcc; /* lekko przezroczyste białe tło */
+  border: 1px solid #f875f8b3;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+  width: 250px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.day-details p {
+  font-size: 1.1rem;
+  color: #353333c9;
+  margin-bottom: 0.5rem;
+}
+
+.day-details label {
+  font-size: 0.95rem;
+  color: #651f7f;
+  margin-top: 0.5rem;
+  align-self: flex-start;
+}
+
+.day-details input[type="text"],
+.day-details input[type="number"] {
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #f875f8b3;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #651f7f;
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+}
+
+.was-fed-button {
+  margin-top: 0.3rem;
+}
+
+.save-button {
+  margin-top: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #f875f8b3;
+  background-color: #eec8fba0;
+  color: #651f7f;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.save-button:hover {
+  background-color: #f875f8b3;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .day-details {
+    width: 90%;
+    padding: 0.5rem;
+  }
+
+  .day-details p,
+  .day-details label,
+  .day-details input[type="text"],
+  .day-details input[type="number"],
+  .save-button {
+    font-size: 0.9rem;
+  }
+}
