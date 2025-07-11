@@ -14,8 +14,9 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   const [popupPosition, setPopupPosition] = useState<{ top: number, left: number } | null>(null);
   const popupRef = useRef<HTMLDivElement | null>(null);
   const [feedingData, setFeedingData] = useState<
-  { date: Date; wasFed: boolean; foodType: string; amount: number }[]
+  { id: number; date: Date; wasFed: boolean; foodType: string; amount: number }[]
   >([]);
+  const [nextId, setNextId] = useState(1);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 600);
 
   useEffect(() => {
@@ -112,9 +113,12 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   };
 
   const handleSaveFeeding = (data: { date: Date; wasFed: boolean; foodType: string; amount: number }) => {
-    setFeedingData((prev) => [...prev, data]);
-    console.log('Saved feeding data:', feedingData);
-};
+    const newData = { ...data, id: nextId };
+    setFeedingData((prev) => [...prev, newData]);
+    setNextId((prev) => prev + 1);
+    console.log('Saved feeding data:', newData);
+  };
+
 
 
   return (
@@ -174,14 +178,28 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
           <DayDetails date={selectedDate} onClose={closePopup} onSave={handleSaveFeeding}/>
         </div>
       )}
-      <ul>
-      {feedingData.map((item, index) => (
-        <li key={index}>
-          {item.date.toLocaleDateString()} – Fed: {item.wasFed ? 'Yes' : 'No'} – {item.foodType} ({item.amount}g)
-        </li>
-      ))}
-    </ul>
-
+        <table className="feeding-data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Was Fed</th>
+              <th>Food Type</th>
+              <th>Amount (g)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {feedingData.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.date.toLocaleDateString()}</td>
+                <td>{item.wasFed ? 'Yes' : 'No'}</td>
+                <td>{item.foodType}</td>
+                <td>{item.amount}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </>
   );
 };

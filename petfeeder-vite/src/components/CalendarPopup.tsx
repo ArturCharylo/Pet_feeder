@@ -4,7 +4,7 @@ import '../styles/CalendarPopup.css';
 interface DayDetailsProps {
   date: Date;
   onClose: () => void;
-  onSave: (data: { date: Date; wasFed: boolean; foodType: string; amount: number }) => void;
+  onSave: (data: {date: Date; wasFed: boolean; foodType: string; amount: number }) => void;
 }
 
 const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
@@ -14,7 +14,7 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
 
   const handleSave = () => {
     onSave({ date, wasFed, foodType, amount });
-    onClose(); // opcjonalnie zamknij popup
+    onClose(); // Close popup after saving
   };
 
   return (
