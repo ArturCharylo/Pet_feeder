@@ -13,6 +13,9 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [popupPosition, setPopupPosition] = useState<{ top: number, left: number } | null>(null);
   const popupRef = useRef<HTMLDivElement | null>(null);
+  const [feedingData, setFeedingData] = useState<
+  { date: Date; wasFed: boolean; foodType: string; amount: number }[]
+  >([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 600);
 
   useEffect(() => {
@@ -108,6 +111,11 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     setPopupPosition(null);
   };
 
+  const handleSaveFeeding = (data: { date: Date; wasFed: boolean; foodType: string; amount: number }) => {
+    setFeedingData((prev) => [...prev, data]);
+    console.log('Saved feeding data:', feedingData);
+};
+
 
   return (
     <>
@@ -163,10 +171,16 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
             }
           })()}
         >
-          <DayDetails date={selectedDate} onClose={closePopup} />
+          <DayDetails date={selectedDate} onClose={closePopup} onSave={handleSaveFeeding}/>
         </div>
       )}
-
+      <ul>
+      {feedingData.map((item, index) => (
+        <li key={index}>
+          {item.date.toLocaleDateString()} – Fed: {item.wasFed ? 'Yes' : 'No'} – {item.foodType} ({item.amount}g)
+        </li>
+      ))}
+    </ul>
 
     </>
   );
