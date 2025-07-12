@@ -17,6 +17,7 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   { id: number; date: Date; wasFed: boolean; foodType: string; amount: number }[]
   >([]);
   const [nextId, setNextId] = useState(1);
+  const [showPopup, setShowPopup] = useState<boolean>(false)
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 600);
 
   useEffect(() => {
@@ -199,28 +200,50 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
           <DayDetails date={selectedDate} onClose={closePopup} onSave={handleSaveFeeding}/>
         </div>
       )}
-        <table className="feeding-data-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Date</th>
-              <th>Was Fed</th>
-              <th>Food Type</th>
-              <th>Amount (g)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {feedingData.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.date.toLocaleDateString()}</td>
-                <td>{item.wasFed ? 'Yes' : 'No'}</td>
-                <td>{item.foodType}</td>
-                <td>{item.amount}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      {/* Feeding history button in top-right corner */}
+      <button
+        className="show-popup-button top-right"
+        onClick={() => setShowPopup(true)}
+        style={{ display: showPopup ? 'none' : 'block' }}
+      >
+        Show Feeding history
+      </button>
+
+      {/* Modal overlay for feeding history */}
+      {showPopup && (
+        <div className="feeding-modal-overlay">
+          <div className="feeding-modal-window">
+            <button
+              className="close-modal-button"
+              onClick={() => setShowPopup(false)}
+            >
+              ×
+            </button>
+            <table className="feeding-data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Date</th>
+                  <th>Was Fed</th>
+                  <th>Food Type</th>
+                  <th>Amount (g)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {feedingData.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.date.toLocaleDateString()}</td>
+                    <td>{item.wasFed ? 'Yes' : 'No'}</td>
+                    <td>{item.foodType}</td>
+                    <td>{item.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </>
   );
 };

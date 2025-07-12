@@ -102,8 +102,8 @@
 
 /* Feeding table styles*/
 .feeding-data-table {
-  width: 60%;
-  margin: 0.2rem 2rem 1rem 2rem;
+  width: 85%;
+  margin: 0.2rem 1rem 1rem 1rem;
   border-collapse: separate;
   border-spacing: 0;
   background: #fff6fd;
@@ -157,7 +157,69 @@
   border-bottom: none;
 }
 
-/* Responsive adjustments */
+/* Top-right button */
+.show-popup-button.top-right {
+  position: absolute;
+  top: 1.5rem;
+  right: 15rem;
+  z-index: 1100;
+  background: #f875f8b3;
+  color: #651f7f;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px #eec8fb44;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.show-popup-button.top-right:hover {
+  background: #eec8fb;
+}
+
+/* Modal overlay */
+.feeding-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(100, 31, 127, 0.15);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal window */
+.feeding-modal-window {
+  background: #fff6fd;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #eec8fb88;
+  padding: 2rem 0em 1.5rem 0rem;
+  position: relative;
+  min-width: 300px;
+  max-width: 80vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: fadeInUp 0.3s;
+}
+
+/* Close button */
+.close-modal-button {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #651f7f;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 1300;
+}
+
 @media (max-width: 600px) {
   .react-calendar {
     padding: 0.5rem;
@@ -170,7 +232,27 @@
   }
   .feeding-data-table th,
   .feeding-data-table td {
-    padding: 0.5rem 0.5rem;
-    font-size: 0.95rem;
+    padding: 0.4rem 0.3rem;
+    font-size: 0.85rem;
+  }
+  .show-popup-button.top-right {
+    top: 1.5rem;
+    right: 2.5rem;
+    padding: 0.2rem 0.3rem;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    min-width: 50px;
+    min-height: 28px;
+  }
+  .feeding-modal-window {
+    padding: 0.5rem 0.3rem 0.3rem 0.3rem;
+    min-width: 70vw;
+    max-width: 90vw;
+    max-height: 60vh;
+  }
+  .close-modal-button {
+    font-size: 1.3rem;
+    top: 0.5rem;
+    right: 0.7rem;
   }
 }
