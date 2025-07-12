@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/CalendarPopup.css';
+import { validateFoodType, validateAmount } from '../validation/Rules';
 
 interface DayDetailsProps {
   date: Date;
@@ -11,8 +12,18 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
   const [wasFed, setWasFed] = useState(false);
   const [foodType, setFoodType] = useState('');
   const [amount, setAmount] = useState(0);
+  const [error, setError] = useState<string>(''); // State for error message
 
   const handleSave = () => {
+    if (!validateFoodType(foodType)) {
+      setError('Invalid food type! Only letters, spaces and dashes, 2-30 characters.');
+      return;
+    }
+    if (!validateAmount(amount)) {
+      setError('Invalid amount! Must be a positive number.');
+      return;
+    }
+    setError(''); // Clear error on successful validation
     onSave({ date, wasFed, foodType, amount });
     onClose(); // Close popup after saving
   };
@@ -59,6 +70,7 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
         </div>
       </div>
       <button className="save-button" onClick={handleSave}>Save</button>
+      {error && <p style={{ color: "#ff2e2ed0", marginTop: "10px" }}>{error}</p>}
     </div>
   );
 };
