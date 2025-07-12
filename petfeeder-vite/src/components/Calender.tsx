@@ -27,6 +27,23 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+  const storedData = localStorage.getItem('feedingData');
+  if (storedData) {
+    // Musisz przekształcić stringi na daty
+    const parsed = JSON.parse(storedData).map((item: { id: number; date: string; wasFed: boolean; foodType: string; amount: number }) => ({
+      ...item,
+      date: new Date(item.date)
+    }));
+    setFeedingData(parsed);
+    if (parsed.length > 0) {
+      // Ustaw nextId na kolejny numer
+      setNextId(Math.max(...parsed.map((d: { id: number; date: Date; wasFed: boolean; foodType: string; amount: number }) => d.id)) + 1);
+    }
+  }
+}, []);
+
+
 
   useEffect(() => {
     if (!feedFrequency) return;
@@ -114,9 +131,13 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
 
   const handleSaveFeeding = (data: { date: Date; wasFed: boolean; foodType: string; amount: number }) => {
     const newData = { ...data, id: nextId };
-    setFeedingData((prev) => [...prev, newData]);
+    setFeedingData((prev) => {
+      const updated = [...prev, newData];
+      localStorage.setItem('feedingData', JSON.stringify(updated));
+      return updated;
+    });
     setNextId((prev) => prev + 1);
-    console.log('Saved feeding data:', newData);
+    console.log('Saved feeding data:', localStorage.getItem('feedingData'));
   };
 
 
