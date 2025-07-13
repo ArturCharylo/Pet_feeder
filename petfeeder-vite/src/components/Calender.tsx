@@ -157,6 +157,7 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     setFeedingData(updated);
     localStorage.setItem('feedingData', JSON.stringify(updated));
     setEditData(null);
+    setSelectedRecord(null); // <-- Close the delete/edit modal after saving
   };
 
 
@@ -281,40 +282,51 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
 {/* Modal for edition */}
 {editData && (
   <div className="feeding-modal-overlay">
-    <div className="feeding-modal-window">
-      <button className="close-modal-button" onClick={() => setEditData(null)}>×</button>
-      <form onSubmit={e => {
-        e.preventDefault();
-        handleEdit(editData);
-      }}>
-    <div className="checkbox-row">
-      <input
-        className="was-fed-button"
-        type="checkbox"
-        checked={editData.wasFed}
-        onChange={e => setEditData({ ...editData, wasFed: e.target.checked })}
-      />
-      <span>Was Fed?</span>
-    </div>
-
-    <label>
-      Food Type:<input
-        type="text"
-        value={editData.foodType}
-        onChange={e => setEditData({ ...editData, foodType: e.target.value })}
-      />
-    </label>
-
-    <label>
-      Amount (g):<input
-        type="number"
-        value={editData.amount}
-        onChange={e => setEditData({ ...editData, amount: Number(e.target.value) })}
-      />
-    </label>
-
-    <button className="save-button" type="submit">Zapisz</button>
-
+    <div className="feeding-modal-window day-details">
+      <button className="close-button" onClick={() => setEditData(null)}>×</button>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          handleEdit(editData);
+        }}
+        className="day-details-content"
+      >
+        <div className="day-details-column">
+          <p>Date of data for edit:<br/>{editData.date.toLocaleDateString()}</p>
+          <p>
+            <strong>Current Data:</strong><br/>
+            Was Fed: {editData.wasFed ? 'Yes' : 'No'}<br/>
+            Food Type: {editData.foodType}<br/>
+            Amount: {editData.amount} g
+          </p>
+          <p>Edit Feeding Record</p>
+        </div>
+        <div className="day-details-column">
+          <label>
+          <div className="checkbox-row">
+            <label>Was Fed?<input
+                className="was-fed-button"
+                type="checkbox"
+                checked={editData.wasFed}
+                onChange={e => setEditData({ ...editData, wasFed: e.target.checked })}
+              />
+            </label>
+          </div>
+            Food Type:<input
+              type="text"
+              value={editData.foodType}
+              onChange={e => setEditData({ ...editData, foodType: e.target.value })}
+            />
+          </label>
+          <label>
+            Amount (g):<input
+              type="number"
+              value={editData.amount}
+              onChange={e => setEditData({ ...editData, amount: Number(e.target.value) })}
+            />
+          </label>
+          <button className="save-button" type="submit">Save</button>
+        </div>
       </form>
     </div>
   </div>

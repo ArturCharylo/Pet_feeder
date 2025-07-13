@@ -262,6 +262,114 @@
   z-index: 1300;
 }
 
+.day-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffffcc;
+  border: 1px solid #f875f8b3;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+  width: 360px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.4s ease;
+}
+
+.day-details-content {
+  display: flex;
+  width: 100%;
+}
+
+.day-details-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.day-details-column:first-child {
+  border-right: 1px solid #f875f8b3;
+  padding-right: 0.5rem;
+}
+
+.day-details-column:last-child {
+  padding-left: 0.5rem;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  float: center;
+  margin-top: 0.3rem;
+}
+
+.checkbox-row label {
+  margin-left: 3.5rem;
+  font-size: 0.95rem;
+  color: #651f7f;
+}
+
+.day-details p {
+  font-size: 1.1rem;
+  color: #353333c9;
+  margin-bottom: 0.2rem;
+}
+
+.day-details label {
+  font-size: 0.95rem;
+  color: #651f7f;
+  margin-top: 0.4rem;
+  align-self: flex-start;
+}
+
+.day-details input[type="text"],
+.day-details input[type="number"] {
+  width: 80%;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #f875f8b3;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #651f7f;
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+  margin-left: 0.5rem;
+  outline: #a06ebc;
+}
+
+.save-button {
+  margin-top: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #f875f8b3;
+  background-color: #de9bf4c7;
+  color: #651f7f;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+.save-button:hover {
+  background-color: #f875f8b3;
+  color: white;
+}
+
+.close-button {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: #651f7f;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-bottom: 0.3rem;
+  transition: color 0.2s;
+}
+
+.close-button:hover {
+  color: #a06ebc;
+}
+
 @media (max-width: 600px) {
   .react-calendar {
     padding: 0.5rem;
