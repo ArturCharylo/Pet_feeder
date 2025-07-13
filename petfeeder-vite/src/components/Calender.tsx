@@ -19,6 +19,8 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   const [nextId, setNextId] = useState(1);
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 600);
+  const [selectedRecord, setSelectedRecord] = useState<number | null>(null);
+  const [editData, setEditData] = useState<{ id: number; date: Date; wasFed: boolean; foodType: string; amount: number } | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -141,6 +143,22 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     console.log('Saved feeding data:', localStorage.getItem('feedingData'));
   };
 
+  // Funkcja usuwania
+  const handleDelete = (id: number) => {
+    const updated = feedingData.filter(item => item.id !== id);
+    setFeedingData(updated);
+    localStorage.setItem('feedingData', JSON.stringify(updated));
+    setSelectedRecord(null);
+  };
+
+  // Funkcja edycji (przykład: zmiana ilości)
+  const handleEdit = (data: typeof feedingData[0]) => {
+    const updated = feedingData.map(item => item.id === data.id ? data : item);
+    setFeedingData(updated);
+    localStorage.setItem('feedingData', JSON.stringify(updated));
+    setEditData(null);
+  };
+
 
 
   return (
@@ -231,7 +249,7 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
               </thead>
               <tbody>
                 {feedingData.map((item) => (
-                  <tr key={item.id}>
+                  <tr key={item.id} onClick={() => setSelectedRecord(item.id)}>
                     <td>{item.id}</td>
                     <td>{item.date.toLocaleDateString()}</td>
                     <td>{item.wasFed ? 'Yes' : 'No'}</td>
@@ -244,6 +262,52 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
           </div>
         </div>
       )}
+
+      {/* Modal for deletion/edition */}
+      {selectedRecord !== null && (
+  <div className="feeding-modal-overlay">
+    <div className="feeding-modal-window">
+      <button className="close-modal-button" onClick={() => setSelectedRecord(null)}>×</button>
+      <p>Czy chcesz usunąć lub edytować ten rekord?</p>
+      <button className="feeding-modal-delete-button"onClick={() => handleDelete(selectedRecord)}>Usuń</button>
+      <button className='feeding-modal-edit-button' onClick={() => {
+        const record = feedingData.find(item => item.id === selectedRecord);
+        if (record) setEditData(record);
+      }}>Edytuj</button>
+    </div>
+  </div>
+)}
+
+{/* Modal for edition */}
+{editData && (
+  <div className="feeding-modal-overlay">
+    <div className="feeding-modal-window">
+      <button className="close-modal-button" onClick={() => setEditData(null)}>×</button>
+      <form onSubmit={e => {
+        e.preventDefault();
+        handleEdit(editData);
+      }}>
+        <label>Was Fed?<input
+         type='checkbox' checked={editData.wasFed}
+         onChange={e => setEditData({...editData, wasFed: e.target.checked})}/>
+         </label>
+        <label>Food Type: <input
+         type='text' value={editData.foodType} 
+         onChange={e => setEditData({ ...editData, foodType: e.target.value })}
+         /></label>
+        <label>
+          Ammount (g):<input
+            type="number"
+            value={editData.amount}
+            onChange={e => setEditData({ ...editData, amount: Number(e.target.value) })}
+          />
+        </label>
+        {/* Dodaj inne pola do edycji według potrzeb */}
+        <button className='feeding-modal-edit-button' type="submit">Zapisz</button>
+      </form>
+    </div>
+  </div>
+)}
     </>
   );
 };
