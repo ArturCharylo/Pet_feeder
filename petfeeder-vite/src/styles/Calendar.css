@@ -189,16 +189,16 @@
   padding: 8px 18px;
   border-radius: 6px;
   border: none;
-  background: #3498db;
-  color: #fff;
+  background: #4f0131d2;
+  color: #ff0000;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .feeding-modal-edit-button {
-  background: #f1c40f;
-  color: #333;
+  background: #ff49f6ca;
+  color: #560070;
 }
 .feeding-modal-window form label {
   display: block;
@@ -239,6 +239,13 @@
   max-height: 80vh;
   overflow-y: auto;
   animation: fadeInUp 0.3s;
+}
+
+.was-fed-button {
+  margin-top: 0.3rem;
+  border-radius: 10px;
+  border: 1px solicd #f875f8b3;
+  background-color: #ffffff;
 }
 
 /* Close button */

@@ -287,23 +287,34 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
         e.preventDefault();
         handleEdit(editData);
       }}>
-        <label>Was Fed?<input
-         type='checkbox' checked={editData.wasFed}
-         onChange={e => setEditData({...editData, wasFed: e.target.checked})}/>
-         </label>
-        <label>Food Type: <input
-         type='text' value={editData.foodType} 
-         onChange={e => setEditData({ ...editData, foodType: e.target.value })}
-         /></label>
-        <label>
-          Ammount (g):<input
-            type="number"
-            value={editData.amount}
-            onChange={e => setEditData({ ...editData, amount: Number(e.target.value) })}
-          />
-        </label>
-        {/* Dodaj inne pola do edycji według potrzeb */}
-        <button className='feeding-modal-edit-button' type="submit">Zapisz</button>
+    <div className="checkbox-row">
+      <input
+        className="was-fed-button"
+        type="checkbox"
+        checked={editData.wasFed}
+        onChange={e => setEditData({ ...editData, wasFed: e.target.checked })}
+      />
+      <span>Was Fed?</span>
+    </div>
+
+    <label>
+      Food Type:<input
+        type="text"
+        value={editData.foodType}
+        onChange={e => setEditData({ ...editData, foodType: e.target.value })}
+      />
+    </label>
+
+    <label>
+      Amount (g):<input
+        type="number"
+        value={editData.amount}
+        onChange={e => setEditData({ ...editData, amount: Number(e.target.value) })}
+      />
+    </label>
+
+    <button className="save-button" type="submit">Zapisz</button>
+
       </form>
     </div>
   </div>
