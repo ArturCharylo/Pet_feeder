@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Calendar from 'react-calendar';
 import DayDetails from './CalendarPopup';
 import '../styles/Calendar.css';
+import { requestNotificationPermission, sendNotification } from '../hooks/useNotifications';
+
 
 interface Props {
   feedFrequency: string;
@@ -22,6 +24,46 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   const [selectedRecord, setSelectedRecord] = useState<number | null>(null);
   const [editData, setEditData] = useState<{ id: number; date: Date; wasFed: boolean; foodType: string; amount: number } | null>(null);
 
+
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
+
+  // Set up daily notification at 18:00
+  useEffect(() => {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    const now = new Date();
+    const targetHour = 18;
+
+    const millisTillTarget = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      targetHour,
+      0,
+      0
+    ).getTime() - now.getTime();
+
+    const timeout = setTimeout(() => {
+      sendNotification('Przypomnienie', {
+        body: 'Pora nakarmić zwierzaka! 🐱',
+        icon: '/Pet_feeder.png',
+      });
+
+      // repeat every 24h
+      setInterval(() => {
+        sendNotification('Przypomnienie', {
+          body: 'Pora nakarmić zwierzaka! 🐱',
+          icon: '/Pet_feeder.png',
+        });
+      }, 24 * 60 * 60 * 1000);
+    }, millisTillTarget);
+
+    return () => clearTimeout(timeout);
+  }
+}, []);
+
+
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 600);
@@ -33,14 +75,14 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
   useEffect(() => {
   const storedData = localStorage.getItem('feedingData');
   if (storedData) {
-    // Musisz przekształcić stringi na daty
+    // Refactoring string to object
     const parsed = JSON.parse(storedData).map((item: { id: number; date: string; wasFed: boolean; foodType: string; amount: number }) => ({
       ...item,
       date: new Date(item.date)
     }));
     setFeedingData(parsed);
     if (parsed.length > 0) {
-      // Ustaw nextId na kolejny numer
+      // Set nextId to the maximum id + 1
       setNextId(Math.max(...parsed.map((d: { id: number; date: Date; wasFed: boolean; foodType: string; amount: number }) => d.id)) + 1);
     }
   }
@@ -132,16 +174,20 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     setPopupPosition(null);
   };
 
-  const handleSaveFeeding = (data: { date: Date; wasFed: boolean; foodType: string; amount: number }) => {
-    const newData = { ...data, id: nextId };
-    setFeedingData((prev) => {
-      const updated = [...prev, newData];
-      localStorage.setItem('feedingData', JSON.stringify(updated));
-      return updated;
-    });
-    setNextId((prev) => prev + 1);
-    console.log('Saved feeding data:', localStorage.getItem('feedingData'));
-  };
+const handleSaveFeeding = (data: { date: Date; wasFed: boolean; foodType: string; amount: number }) => {
+  const newData = { ...data, id: nextId };
+  setFeedingData((prev) => {
+    const updated = [...prev, newData];
+    localStorage.setItem('feedingData', JSON.stringify(updated));
+    return updated;
+  });
+  setNextId((prev) => prev + 1);
+  console.log('Saved feeding data:', localStorage.getItem('feedingData'));
+
+  // Send notification after saving
+  sendNotification('Dane zapisane!', { body: 'Dodano nowy rekord karmienia 🐶' });
+};
+
 
   // Funkcja usuwania
   const handleDelete = (id: number) => {
@@ -266,71 +312,71 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
 
       {/* Modal for deletion/edition */}
       {selectedRecord !== null && (
-  <div className="feeding-modal-overlay">
-    <div className="feeding-modal-window">
-      <button className="close-modal-button" onClick={() => setSelectedRecord(null)}>×</button>
-      <p>Czy chcesz usunąć lub edytować ten rekord?</p>
-      <button className="feeding-modal-delete-button"onClick={() => handleDelete(selectedRecord)}>Usuń</button>
-      <button className='feeding-modal-edit-button' onClick={() => {
-        const record = feedingData.find(item => item.id === selectedRecord);
-        if (record) setEditData(record);
-      }}>Edytuj</button>
-    </div>
-  </div>
-)}
-
-{/* Modal for edition */}
-{editData && (
-  <div className="feeding-modal-overlay">
-    <div className="feeding-modal-window day-details">
-      <button className="close-button" onClick={() => setEditData(null)}>×</button>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          handleEdit(editData);
-        }}
-        className="day-details-content"
-      >
-        <div className="day-details-column">
-          <p>Date of data for edit:<br/>{editData.date.toLocaleDateString()}</p>
-          <p>
-            <strong>Current Data:</strong><br/>
-            Was Fed: {editData.wasFed ? 'Yes' : 'No'}<br/>
-            Food Type: {editData.foodType}<br/>
-            Amount: {editData.amount} g
-          </p>
-          <p>Edit Feeding Record</p>
-        </div>
-        <div className="day-details-column">
-          <label>
-          <div className="checkbox-row">
-            <label>Was Fed?<input
-                className="was-fed-button"
-                type="checkbox"
-                checked={editData.wasFed}
-                onChange={e => setEditData({ ...editData, wasFed: e.target.checked })}
-              />
-            </label>
+        <div className="feeding-modal-overlay">
+          <div className="feeding-modal-window">
+            <button className="close-modal-button" onClick={() => setSelectedRecord(null)}>×</button>
+            <p>Czy chcesz usunąć lub edytować ten rekord?</p>
+            <button className="feeding-modal-delete-button"onClick={() => handleDelete(selectedRecord)}>Usuń</button>
+            <button className='feeding-modal-edit-button' onClick={() => {
+              const record = feedingData.find(item => item.id === selectedRecord);
+              if (record) setEditData(record);
+            }}>Edytuj</button>
           </div>
-            Food Type:<input
-              type="text"
-              value={editData.foodType}
-              onChange={e => setEditData({ ...editData, foodType: e.target.value })}
-            />
-          </label>
-          <label>
-            Amount (g):<input
-              type="number"
-              value={editData.amount}
-              onChange={e => setEditData({ ...editData, amount: Number(e.target.value) })}
-            />
-          </label>
-          <button className="save-button" type="submit">Save</button>
         </div>
-      </form>
-    </div>
-  </div>
-)}
+      )}
+
+      {/* Modal for edition */}
+      {editData && (
+        <div className="feeding-modal-overlay">
+          <div className="feeding-modal-window day-details">
+            <button className="close-button" onClick={() => setEditData(null)}>×</button>
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                handleEdit(editData);
+              }}
+              className="day-details-content"
+            >
+              <div className="day-details-column">
+                <p>Date of data for edit:<br/>{editData.date.toLocaleDateString()}</p>
+                <p>
+                  <strong>Current Data:</strong><br/>
+                  Was Fed: {editData.wasFed ? 'Yes' : 'No'}<br/>
+                  Food Type: {editData.foodType}<br/>
+                  Amount: {editData.amount} g
+                </p>
+                <p>Edit Feeding Record</p>
+              </div>
+              <div className="day-details-column">
+                <label>
+                <div className="checkbox-row">
+                  <label>Was Fed?<input
+                      className="was-fed-button"
+                      type="checkbox"
+                      checked={editData.wasFed}
+                      onChange={e => setEditData({ ...editData, wasFed: e.target.checked })}
+                    />
+                  </label>
+                </div>
+                  Food Type:<input
+                    type="text"
+                    value={editData.foodType}
+                    onChange={e => setEditData({ ...editData, foodType: e.target.value })}
+                  />
+                </label>
+                <label>
+                  Amount (g):<input
+                    type="number"
+                    value={editData.amount}
+                    onChange={e => setEditData({ ...editData, amount: Number(e.target.value) })}
+                  />
+                </label>
+                <button className="save-button" type="submit">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 };
