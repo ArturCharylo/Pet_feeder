@@ -406,3 +406,44 @@
     right: 0.7rem;
   }
 }
+
+@media (max-width: 500px) {
+  .react-calendar {
+    padding: 0.2rem;
+    font-size: 0.8rem;
+    margin: 0.2rem 0.2rem 0.1rem 0.2rem;
+  }
+  .react-calendar__navigation button {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.3rem;
+  }
+  .feeding-data-table {
+    width: 98%;
+    font-size: 0.8rem;
+  }
+  .feeding-data-table th,
+  .feeding-data-table td {
+    padding: 0.2rem 0.1rem;
+    font-size: 0.75rem;
+  }
+  .show-popup-button.top-right {
+    top: 1.2rem;
+    right: 2.4rem;
+    padding: 0.1rem 0.2rem;
+    font-size: 0.65rem;
+    border-radius: 5px;
+    min-width: 40px;
+    min-height: 22px;
+  }
+  .feeding-modal-window {
+    padding: 0.3rem 0.1rem 0.1rem 0.1rem;
+    min-width: 90vw;
+    max-width: 98vw;
+    max-height: 50vh;
+  }
+  .close-modal-button {
+    font-size: 1rem;
+    top: 0.3rem;
+    right: 0.5rem;
+  }
+}

@@ -164,3 +164,39 @@
     padding: 0.35rem 0.7rem;
   }
 }
+
+@media (max-width: 500px) {
+  .day-details {
+    width: 98%;
+    padding: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .day-details-content {
+    flex-direction: column;
+  }
+  .day-details-column:first-child {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid #f875f8b3;
+    padding-bottom: 0.3rem;
+  }
+  .day-details-column:last-child {
+    padding-left: 0;
+    padding-top: 0.3rem;
+  }
+  .day-details p {
+    font-size: 0.85rem;
+  }
+  .day-details label {
+    font-size: 0.8rem;
+  }
+  .day-details input[type="text"],
+  .day-details input[type="number"] {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.3rem;
+  }
+  .save-button {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
+  }
+}
