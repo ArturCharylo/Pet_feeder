@@ -11,20 +11,22 @@ interface DayDetailsProps {
 const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
   const [wasFed, setWasFed] = useState(false);
   const [foodType, setFoodType] = useState('');
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(''); // store as string to handle empty input
   const [error, setError] = useState<string>(''); // State for error message
 
   const handleSave = () => {
+        const numericAmount = Number(amount);
+
     if (!validateFoodType(foodType)) {
       setError('Invalid food type! Only letters, spaces and dashes, 2-30 characters.');
       return;
     }
-    if (!validateAmount(amount)) {
+    if (!validateAmount(numericAmount)) {
       setError('Invalid amount! Must be a positive number.');
       return;
     }
     setError(''); // Clear error on successful validation
-    onSave({ date, wasFed, foodType, amount });
+    onSave({ date, wasFed, foodType, amount: numericAmount });
     onClose(); // Close popup after saving
   };
 
@@ -57,7 +59,7 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
             value={foodType}
             onChange={(e) => setFoodType(e.target.value)}
           />
-          <label htmlFor="amount" className='popup-label'>Amount:</label>
+          <label htmlFor="amount" >Amount:</label>
           <input
             type="number"
             className="amount-input-popup"
@@ -65,7 +67,7 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
             id="amount"
             placeholder="Enter amount in grams"
             value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
+            onChange={(e) => setAmount((e.target.value))}
           />
         </div>
       </div>
