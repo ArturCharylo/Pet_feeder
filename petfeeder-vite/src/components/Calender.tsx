@@ -29,6 +29,15 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     requestNotificationPermission();
   }, []);
 
+  // Load highlighted dates from localStorage on initial render
+  useEffect(() => {
+    const storedDates = localStorage.getItem('highlightedDates');
+    if (storedDates) {
+      const parsedDates = JSON.parse(storedDates).map((isoString: string) => new Date(isoString));
+      setHighlightedDates(parsedDates);
+    }
+  }, []);
+
   // Set up daily notification at 18:00
   useEffect(() => {
     if ('Notification' in window && Notification.permission === 'granted') {
@@ -154,6 +163,7 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     }
 
     setHighlightedDates(dates);
+    localStorage.setItem('highlightedDates', JSON.stringify(dates.map(date => date.toISOString())));
   }, [feedFrequency]);
 
 
@@ -174,6 +184,9 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
   };}, [selectedDate]);
+
+
+
 
   const getDate = (date: Date) => {
     setSelectedDate(date)

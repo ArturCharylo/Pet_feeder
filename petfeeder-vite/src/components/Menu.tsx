@@ -1,10 +1,24 @@
 // Menu.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FrequencyCalendar from './Calender';
 import '../styles/Menu.css'
 
 export const Menu: React.FC = () => {
     const [feedFrequency, setFeedFrequency] = useState<string>('');
+
+    useEffect(() => {
+        const storedFrequency = localStorage.getItem('feedFrequency');
+        if (storedFrequency) {
+            setFeedFrequency(storedFrequency);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (feedFrequency) {
+            localStorage.setItem('feedFrequency', feedFrequency);
+        }
+    }, [feedFrequency]);
+
 
     return (
         <div className="App">
