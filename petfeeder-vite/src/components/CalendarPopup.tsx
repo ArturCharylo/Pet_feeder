@@ -59,7 +59,7 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
             value={foodType}
             onChange={(e) => setFoodType(e.target.value)}
           />
-          <label htmlFor="amount" >Amount:</label>
+          <label htmlFor="amount" className='popup-label'>Amount:</label>
           <input
             type="number"
             className="amount-input-popup"
