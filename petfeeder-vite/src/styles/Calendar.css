@@ -189,8 +189,8 @@
   padding: 8px 18px;
   border-radius: 6px;
   border: none;
-  background: #4f0131d2;
-  color: #ff0000;
+  background: #8b0056d2;
+  color: #e30000;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
@@ -198,6 +198,16 @@
 
 .feeding-modal-edit-button {
   background: #ff49f6ca;
+  color: #560070;
+}
+
+.feeding-modal-delete-button:hover {
+  background: #ff0000;
+  color: #fff;
+}
+
+.feeding-modal-edit-button:hover {
+  background: #f875f8b3;
   color: #560070;
 }
 .feeding-modal-window form label {
@@ -305,8 +315,7 @@
 }
 
 .checkbox-row label {
-  margin-left: 3.5rem;
-  font-size: 0.95rem;
+  margin-left: 3rem;
   color: #651f7f;
 }
 
@@ -340,8 +349,8 @@
 .save-button {
   margin-top: 0.8rem;
   padding: 0.4rem 0.8rem;
-  border: 1px solid #f875f8b3;
-  background-color: #de9bf4c7;
+  border: 1px solid #f545f5b3;
+  background-color: #ce51f8c7;
   color: #651f7f;
   border-radius: 5px;
   font-size: 1rem;
@@ -351,7 +360,7 @@
 }
 
 .save-button:hover {
-  background-color: #f875f8b3;
+  background-color: #a117a1b3;
   color: white;
 }
 
@@ -396,7 +405,7 @@
   }
   .feeding-modal-window {
     padding: 0.5rem 0.3rem 0.3rem 0.3rem;
-    min-width: 70vw;
+    min-width: 80vw;
     max-width: 90vw;
     max-height: 60vh;
   }
@@ -418,7 +427,8 @@
     padding: 0.1rem 0.3rem;
   }
   .feeding-data-table {
-    width: 98%;
+    width: 85%;
+    border-radius: 0.4rem;
     font-size: 0.8rem;
   }
   .feeding-data-table th,
@@ -437,13 +447,49 @@
   }
   .feeding-modal-window {
     padding: 0.3rem 0.1rem 0.1rem 0.1rem;
-    min-width: 90vw;
-    max-width: 98vw;
-    max-height: 50vh;
+    min-width: 80vw;
+    max-width: 95vw;
+    min-height: 15vh;
+    max-height: 30vh;
   }
+
   .close-modal-button {
     font-size: 1rem;
     top: 0.3rem;
     right: 0.5rem;
+  }
+
+  .day-details {
+    width: 80vw;
+    padding: 0.5rem;
+    margin-bottom: 3.2rem;
+  }
+
+  .checkbox-row label {
+    margin-left: 7.2rem;
+  }
+
+  .day-details-content {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .day-details-column {
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    border: none;
+  }
+
+  .day-details input[type="text"],
+  .day-details input[type="number"] {
+    margin-left: 1.25rem;
+    width: 70%;
+  }
+
+  .save-button {
+    margin-bottom: 1.5rem;
+    width: 80%;
   }
 }

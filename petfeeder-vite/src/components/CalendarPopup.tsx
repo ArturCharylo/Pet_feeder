@@ -34,8 +34,8 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
       <div className="day-details-content">
         <div className="day-details-column">
           <p>Wybrana data: {date.toLocaleDateString()}</p>
-          <div className="checkbox-row">
-            <label htmlFor="was-fed">Was the pet fed this day?</label>
+          <div className="checkbox-row-popup">
+            <label htmlFor="was-fed" className='was-fed-popup'>Was the pet fed this day?</label>
             <input
               type="checkbox"
               className="was-fed-button"
