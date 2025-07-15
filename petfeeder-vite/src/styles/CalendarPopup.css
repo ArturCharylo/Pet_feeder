@@ -9,19 +9,40 @@
   }
 }
 
-.close-button {
-  align-self: flex-end;
-  background: none;
-  border: none;
-  color: #651f7f;
-  font-size: 1.2rem;
-  cursor: pointer;
-  margin-bottom: 0.3rem;
-  transition: color 0.2s;
+.day-details-popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffffcc;
+  border: 1px solid #f875f8b3;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+  width: 360px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.4s ease;
 }
 
-.close-button:hover {
-  color: #a06ebc;
+.day-details-content-popup {
+  display: flex;
+  width: 100%;
+}
+
+.day-details-column-popup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.day-details-column-popup:first-child {
+  border-right: 1px solid #f875f8b3;
+  padding-right: 0.5rem;
+  margin-bottom: 0px;
+}
+
+.day-details-column-popup:last-child {
+  padding-left: 0.5rem;
 }
 
 .checkbox-row-popup {
@@ -31,23 +52,51 @@
 }
 
 .checkbox-row-popup label {
-  margin-left: 0.2rem;
-  font-size: 0.95rem;
+  margin-left: 3rem;
   color: #651f7f;
 }
 
 .was-fed-popup {
   margin-left: 0.5rem;
+  font-size: 0.95rem;
+  color: #651f7f;
 }
 
-.was-fed-button {
+.was-fed-button-popup {
   margin-top: 0.3rem;
   border-radius: 10px;
-  border: 1px solicd #f875f8b3;
+  border: 1px solid #f875f8b3;
   background-color: #ffffff;
 }
 
-.save-button {
+.day-details-popup p {
+  font-size: 1.1rem;
+  color: #353333c9;
+  margin-bottom: 0.2rem;
+}
+
+.day-details-popup label {
+  font-size: 0.95rem;
+  color: #651f7f;
+  margin-top: 0.4rem;
+  align-self: flex-start;
+}
+
+.food-type-input-popup,
+.amount-input-popup {
+  width: 80%;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #f875f8b3;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #651f7f;
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+  margin-left: 0.5rem;
+  outline: #a06ebc;
+}
+
+.save-button-popup {
   margin-top: 0.8rem;
   padding: 0.4rem 0.8rem;
   border: 1px solid #f875f8b3;
@@ -60,22 +109,80 @@
   width: 100%;
 }
 
-.save-button:hover {
+.save-button-popup:hover {
   background-color: #f875f8b3;
   color: white;
 }
 
+.close-button-popup {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: #651f7f;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-bottom: 0.3rem;
+  transition: color 0.2s;
+}
+
+.close-button-popup:hover {
+  color: #a06ebc;
+}
+
 /* Responsywność dla telefonów */
 @media (max-width: 600px) {
-  .save-button {
+  .day-details-popup {
+    width: 80vw;
+    padding: 0.5rem;
+    margin-bottom: 3.2rem;
+  }
+  .day-details-content-popup {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .day-details-column-popup {
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    border: none;
+  }
+  .food-type-input-popup,
+  .amount-input-popup {
+    margin-left: 1.25rem;
+    width: 70%;
+  }
+  .save-button-popup {
+    margin-bottom: 1.5rem;
+    width: 80%;
     font-size: 0.95rem;
     padding: 0.35rem 0.7rem;
   }
 }
 
 @media (max-width: 500px) {
-  .save-button {
+  .checkbox-row-popup label {
+    margin-left: 0.5rem;
+  }
+
+  .day-details-column-popup {
+    margin-left: 0rem;
+    min-height: 15vh;
+    max-height: 30vh;
+  }
+
+  .day-details-column-popup:first-child {
+    border-right: none;
+  }
+
+  .popup-label {
+    margin-top: 0.5rem;
+    margin-left: 7.5rem;
+  }
+
+  .save-button-popup {
     font-size: 0.8rem;
     padding: 0.2rem 0.4rem;
+    margin-top: 1rem;
   }
 }

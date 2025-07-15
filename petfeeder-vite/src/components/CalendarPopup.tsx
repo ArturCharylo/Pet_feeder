@@ -29,16 +29,16 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
   };
 
   return (
-    <div className="day-details">
-      <button className="close-button" onClick={onClose}>×</button>
-      <div className="day-details-content">
-        <div className="day-details-column">
+    <div className="day-details-popup">
+      <button className="close-button-popup" onClick={onClose}>×</button>
+      <div className="day-details-content-popup">
+        <div className="day-details-column-popup">
           <p>Wybrana data: {date.toLocaleDateString()}</p>
           <div className="checkbox-row-popup">
             <label htmlFor="was-fed" className='was-fed-popup'>Was the pet fed this day?</label>
             <input
               type="checkbox"
-              className="was-fed-button"
+              className="was-fed-button-popup"
               name="was-fed"
               id="was-fed"
               checked={wasFed}
@@ -46,21 +46,21 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
             />
           </div>
         </div>
-        <div className="day-details-column">
-          <label htmlFor="food-type">Food type:</label>
+        <div className="day-details-column-popup">
+          <label htmlFor="food-type" className='popup-label'>Food type:</label>
           <input
             type="text"
-            className="food-type-input"
+            className="food-type-input-popup"
             name="food-type"
             id="food-type"
             placeholder="Enter food type"
             value={foodType}
             onChange={(e) => setFoodType(e.target.value)}
           />
-          <label htmlFor="amount">Amount:</label>
+          <label htmlFor="amount" className='popup-label'>Amount:</label>
           <input
             type="number"
-            className="amount-input"
+            className="amount-input-popup"
             name="amount"
             id="amount"
             placeholder="Enter amount in grams"
@@ -69,7 +69,7 @@ const DayDetails: React.FC<DayDetailsProps> = ({ date, onClose, onSave }) => {
           />
         </div>
       </div>
-      <button className="save-button" onClick={handleSave}>Save</button>
+      <button className="save-button-popup" onClick={handleSave}>Save</button>
       {error && <p style={{ color: "#ff2e2ed0", marginTop: "10px" }}>{error}</p>}
     </div>
   );
