@@ -31,37 +31,49 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
 
   // Set up daily notification at 18:00
   useEffect(() => {
-  if ('Notification' in window && Notification.permission === 'granted') {
-    const now = new Date();
-    const targetHour = 18;
+    if ('Notification' in window && Notification.permission === 'granted') {
+      const now = new Date();
+      const targetHour = 18;
 
-    const millisTillTarget = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      targetHour,
-      0,
-      0
-    ).getTime() - now.getTime();
+      const millisTillTarget = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        targetHour,
+        0,
+        0
+      ).getTime() - now.getTime();
 
-    const timeout = setTimeout(() => {
-      sendNotification('Przypomnienie', {
-        body: 'Pora nakarmić zwierzaka! 🐱',
-        icon: '/Pet_feeder.png',
-      });
+      const checkAndNotify = () => {
+        const todayStr = new Date().toDateString();
+        const isHighlighted = highlightedDates.some(date => date.toDateString() === todayStr);
 
-      // repeat every 24h
-      setInterval(() => {
-        sendNotification('Przypomnienie', {
-          body: 'Pora nakarmić zwierzaka! 🐱',
-          icon: '/Pet_feeder.png',
-        });
-      }, 24 * 60 * 60 * 1000);
-    }, millisTillTarget);
+        if (isHighlighted) {
+          const wasFedToday = feedingData.some(
+            record => record.date.toDateString() === todayStr && record.wasFed === true
+          );
 
-    return () => clearTimeout(timeout);
-  }
-}, []);
+          if (!wasFedToday) {
+            sendNotification('Przypomnienie', {
+              body: 'Pora nakarmić zwierzaka! 🐱',
+              icon: '/Pet_feeder.png',
+            });
+          }
+        }
+      };
+
+      const timeout = setTimeout(() => {
+        checkAndNotify();
+        // repeat every 24h
+        setInterval(() => {
+          checkAndNotify();
+        }, 24 * 60 * 60 * 1000);
+      }, millisTillTarget > 0 ? millisTillTarget : 0); // if the te=arget time is in the past, set to 0
+
+      return () => clearTimeout(timeout);
+    }
+  }, [highlightedDates, feedingData]);
+
 
 
   useEffect(() => {
