@@ -143,7 +143,6 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     if (interval === 0.5) {
       // Add dates for twice a day
       for (let i = 0; i < 60; i++) {
-        console.log(`Adding date: ${currentDate.toISOString()}`);
         dates.push(new Date(currentDate));
         currentDate = new Date(currentDate.getTime() + 12 * 60 * 60 * 1000); // every 12 hours
       }
@@ -194,14 +193,10 @@ const handleSaveFeeding = (data: { date: Date; wasFed: boolean; foodType: string
     return updated;
   });
   setNextId((prev) => prev + 1);
-  console.log('Saved feeding data:', localStorage.getItem('feedingData'));
-
-  // Send notification after saving
-  sendNotification('Dane zapisane!', { body: 'Dodano nowy rekord karmienia 🐶' });
 };
 
 
-  // Funkcja usuwania
+  // Delete function
   const handleDelete = (id: number) => {
     const updated = feedingData.filter(item => item.id !== id);
     setFeedingData(updated);
@@ -209,7 +204,7 @@ const handleSaveFeeding = (data: { date: Date; wasFed: boolean; foodType: string
     setSelectedRecord(null);
   };
 
-  // Funkcja edycji (przykład: zmiana ilości)
+  // Edition function 
   const handleEdit = (data: typeof feedingData[0]) => {
     const updated = feedingData.map(item => item.id === data.id ? data : item);
     setFeedingData(updated);
@@ -229,7 +224,7 @@ const handleSaveFeeding = (data: { date: Date; wasFed: boolean; foodType: string
         onClickDay={(date, event) => {
           getDate(date);
             if (isSmallScreen) {
-              setPopupPosition(null); // nie ustawiamy pozycji – pojawi się na środku
+              setPopupPosition(null); // If the position is null, it will appear in the center
             } else {
               const rect = (event.target as HTMLElement).getBoundingClientRect();
               setPopupPosition({
