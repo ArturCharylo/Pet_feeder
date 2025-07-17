@@ -2,12 +2,19 @@
 
 A simple **Progressive Web App (PWA)** that allows users to mark the days they fed their pets and receive notifications if they forget.
 
-The app works on your mobile device when built and served over your local network (see guide below).  
-All data is stored locally in the browser, so as long as the server runs and you don’t delete the data manually, it will remain available.
+🟢 [Live App on Vercel](https://pet-feeder-five.vercel.app/)
+
+This app is serverless — all data is stored locally in the browser. It can be downloaded as a PWA on any device. Notifications will remind you when you're about to miss a feeding.
+
+> ⚠️ Notifications require the browser tab to be open or the app to run in the background.
 
 ---
 
-## 🚀 Getting Started
+## 🖼️ Preview
+
+![Pet Feeder Screenshot](./petfeeder-vite/src/assets/preview.png)
+
+## 🚀 Getting Started (How to run on localhost)
 
 1. Navigate to the project directory:
 
@@ -33,6 +40,8 @@ npm run build
 npx serve dist
 ```
 
+> You may want to use `npx serve -l tcp://(Your local network ip):3000 dist` instead if you encounter any issues
+
 > 📱This allows you to access the app from your phone or other devices connected to the same Wi-Fi.
 
 ## 🛠️ Technologies
@@ -49,9 +58,8 @@ npx serve dist
 - Works offline as a PWA
 - Data persists locally in the browser
 
-## License
+## ⚖️ License
 
-Copyright (c) 2025 Artur Charyło. All rights reserved.
+This project is for demonstration purposes only. All rights reserved © 2025 Artur Charyło.
 
-> This code is published publicly for demonstration and portfolio purposes only.
-> You are NOT permitted to copy, modify, distribute, or use this code in any software or product.
+> 📌 You are **not allowed** to use, copy, or modify this code for commercial or personal projects.
