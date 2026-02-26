@@ -60,6 +60,6 @@ npx serve dist
 
 ## ⚖️ License
 
-This project is for demonstration purposes only. All rights reserved © 2025 Artur Charyło.
+This project is for demonstration purposes only. All rights reserved © 2026 Artur Charyło.
 
 > 📌 You are **not allowed** to use, copy, or modify this code for commercial or personal projects.
