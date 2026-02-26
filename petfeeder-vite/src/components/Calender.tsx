@@ -43,6 +43,7 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
     if ('Notification' in window && Notification.permission === 'granted') {
       const now = new Date();
       const targetHour = 18;
+      let intervalId: number; // Capture interval ID to prevent memory leaks
 
       const millisTillTarget = new Date(
         now.getFullYear(),
@@ -74,12 +75,18 @@ const FrequencyCalendar: React.FC<Props> = ({ feedFrequency }) => {
       const timeout = setTimeout(() => {
         checkAndNotify();
         // repeat every 24h
-        setInterval(() => {
+        intervalId = window.setInterval(() => {
           checkAndNotify();
         }, 24 * 60 * 60 * 1000);
-      }, millisTillTarget > 0 ? millisTillTarget : 0); // if the te=arget time is in the past, set to 0
+      }, millisTillTarget > 0 ? millisTillTarget : 0); // if the target time is in the past, set to 0
 
-      return () => clearTimeout(timeout);
+      // Cleanup function for timeouts and intervals
+      return () => {
+        clearTimeout(timeout);
+        if (intervalId) {
+            clearInterval(intervalId);
+        }
+      };
     }
   }, [highlightedDates, feedingData]);
 
@@ -259,40 +266,27 @@ const handleSaveFeeding = (data: { date: Date; wasFed: boolean; foodType: string
       />
       {selectedDate && (
         <div
-          className="popup-wrapper"
+          className={`popup-wrapper ${isSmallScreen ? 'popup-small-screen' : 'popup-large-screen'}`}
           ref={popupRef}
-          style={(() => {
-            if (isSmallScreen) {
-              return {
-                position: 'fixed',
-                top: '75%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                zIndex: 1000
-              };
-            } else if (popupPosition) {
-              return {
-                position: 'absolute',
-                top: popupPosition.top - 15,
-                left: popupPosition.left,
-                zIndex: 1000
-              };
-            } else {
-              return {};
-            }
-          })()}
+          style={
+            !isSmallScreen && popupPosition 
+            ? { top: popupPosition.top - 15, left: popupPosition.left } 
+            : undefined
+          }
         >
           <DayDetails date={selectedDate} onClose={closePopup} onSave={handleSaveFeeding}/>
         </div>
       )}
+      
       {/* Feeding history button in top-right corner */}
-      <button
-        className="show-popup-button top-right"
-        onClick={() => setShowPopup(true)}
-        style={{ display: showPopup ? 'none' : 'block' }}
-      >
-        Show Feeding history
-      </button>
+      {!showPopup && (
+        <button
+          className="show-popup-button top-right"
+          onClick={() => setShowPopup(true)}
+        >
+          Show Feeding history
+        </button>
+      )}
 
       {/* Modal overlay for feeding history */}
       {showPopup && (
