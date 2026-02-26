@@ -1,6 +1,6 @@
 // Menu.tsx
 import React, { useState, useEffect } from 'react';
-import FrequencyCalendar from './Calender';
+import FrequencyCalendar from './Calendar';
 import '../styles/Menu.css'
 
 export const Menu: React.FC = () => {
